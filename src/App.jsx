@@ -1,12 +1,23 @@
 import './App.css';
+import {Route, BrowserRouter, Routes} from 'react-router';
+import Layout from './views/Layout';
+import Profile from './views/Profile.jsx';
+import Single from './views/Single.jsx';
+import Upload from './views/Upload.jsx'
 import Home from './components/home.jsx';
 
 const App = () => {
   return (
-    <>
-      <h1>My App</h1>
-      <Home />
-      </>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="/single" element={<Single />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 export default App
