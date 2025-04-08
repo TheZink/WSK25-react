@@ -1,10 +1,10 @@
 import './App.css';
 import {Route, BrowserRouter, Routes} from 'react-router';
-import Layout from './views/Layout';
+import Layout from './components/Layout';
 import Profile from './views/Profile.jsx';
 import Single from './views/Single.jsx';
 import Upload from './views/Upload.jsx'
-import Home from './components/home.jsx';
+import Home from './views/home.jsx';
 
 const App = () => {
   return (
