@@ -5,6 +5,35 @@
 }
 
 td{
-    border: 1px solid rgb(255, 255, 255);
+    border: 1px solid rgb(104, 104, 104);
     padding: 45px;
+}
+
+th{
+    border-top: 1px solid rgb(104, 104, 104);
+    border-left: 1px solid rgb(104, 104, 104);
+    border-right: 1px solid rgb(104, 104, 104);
+}
+
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(35, 35, 35);
+    display: flex;
+    justify-content: flex-end;
+}
+
+nav a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #111111;
 }
