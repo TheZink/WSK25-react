@@ -14,20 +14,20 @@ const Home = () => {
 
       try {
         const mediaData = await fetchData(import.meta.env.VITE_MEDIA_API + '/media');
-        setMediaArray(mediaData);
-
+        
         const url = ""
-
+        
         const userIds = mediaData.map((user_id) => user_id);
         console.log('userIds', userIds);
-
+        
         const authApiUrl = import.meta.env.VITE_AUTH_API;
-
-        const newData = await Promise.All(
+        
+        const newData = await Promise.all(
           mediaData.map( async (item) => { 
             const data = await fetchData(`${authApiUrl}/users/${item.user_id}`) 
             return {...item, username: data.username}
           }));
+          setMediaArray(newData);
 
 
 
