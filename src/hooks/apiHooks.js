@@ -1,5 +1,5 @@
 import { fetchData } from '../utils/fetchData';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {uniqBy} from 'lodash';
 
 
@@ -20,7 +20,6 @@ const useMedia = () => {
         ),
       );
 
-      // duplikaattien poisto on tehtävänannon ulkopuolella, ei tarvitse toteuttaa
       const userMap = userData.reduce((map, {user_id, username}) => {
         map[user_id] = username;
         return map;
@@ -54,8 +53,7 @@ const useAuthentication = () => {
       body: JSON.stringify(inputs),
     };
 
-    const loginResult = await fetchData(import.meta.env.VITE_AUTH_API + '/auth/login', fetchOptions);
-
+    const loginResult = await fetchData(authApiUrl + '/auth/login', fetchOptions);
     console.log('loginResult', loginResult);
 
     window.localStorage.setItem("token", loginResult.token);
@@ -64,6 +62,38 @@ const useAuthentication = () => {
   };
   
   return {postLogin};
+};
+
+const useUser = () => {
+  const postUser = async (inputs) => {
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputs),
+    };
+
+    const registerResult = await fetchData(authApiUrl + '/users', fetchOptions)
+    console.log('registerResult', registerResult)
+    return {registerResult}
+  }
+
+  const getUserByToken = useCallback(async (token) => {
+    const fetchOptions = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer: ' + token,
+      },
+    };
+
+    const userResult = await fetchData(authApiUrl + '/users/token', fetchOptions);
+    console.log('userResult', userResult);
+    return (userResult)
+  }, []);
+  return {getUserByToken, postUser};
 }
 
-export {useMedia, useAuthentication};
+
+
+export {useMedia, useAuthentication, useUser};
