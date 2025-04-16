@@ -1,20 +1,24 @@
 import { useUser } from '../hooks/apiHooks';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Profile = () => {
   
   const [ user, setUser ] = useState(null);
   const { getUserByToken } = useUser();
   
-  const fetchUser = async () => {
-    const token = localStorage.getItem('token')
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem('token')
+  
+      if (token) {
+        const userResult = await getUserByToken(token);
+        setUser(userResult.user);
+      }
+    };
+    fetchUser();
 
-    if (token) {
-      const userResult = await getUserByToken(token);
-      setUser(userResult.user);
-    }
-  };
-  fetchUser();
+  }, [getUserByToken]);
+  
 
   console.log('user', user)
 
