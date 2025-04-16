@@ -5,6 +5,7 @@ import {uniqBy} from 'lodash';
 
 const mediaApiUrl = import.meta.env.VITE_MEDIA_API;
 const authApiUrl = import.meta.env.VITE_AUTH_API;
+const uploadApiUrl = import.meta.env.VITE_UPLOAD_SERVER
 
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState([]);
@@ -40,7 +41,27 @@ const useMedia = () => {
     getMedia();
   }, []);
 
-  return mediaArray;
+  const postMedia = async (file, inputs, token) => {
+    const data = {
+      ...inputs,
+      ...file,
+    }
+
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer: ${token}`
+      },
+      body: JSON.stringify(data),
+    };
+
+    const mediaResult = await fetchData(`${mediaApiUrl}/media`, fetchOptions)
+    console.log(mediaResult);
+
+  };
+
+  return {mediaArray, postMedia};
 };
 
 const useAuthentication = () => {
@@ -82,18 +103,42 @@ const useUser = () => {
   const getUserByToken = useCallback(async (token) => {
     const fetchOptions = {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: 'Bearer: ' + token,
       },
     };
 
     const userResult = await fetchData(authApiUrl + '/users/token', fetchOptions);
     console.log('userResult', userResult);
-    return (userResult)
+
+    return userResult
   }, []);
+  
   return {getUserByToken, postUser};
-}
+};
+
+const useFile = () => {
+  const postFile = async (file, token) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    console.log('formData', formData)
+    
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer: ' + token,
+      },
+      mode: 'cors',
+      body: formData
+    };
+
+    const uploadResult = await fetchData(uploadApiUrl + '/upload', fetchOptions);
+    console.log('userResult', uploadResult);
+  };
+
+  return {postFile};
+};
 
 
 
-export {useMedia, useAuthentication, useUser};
+export {useMedia, useAuthentication, useUser, useFile};

@@ -43,7 +43,6 @@ const UserProvider = ({ children }) => {
             if (getToken) {
                 const userResponse = await getUserByToken(getToken);
                 setUser(userResponse.user);
-                const origin = location.state.from.pathname || '/';
                 navigate(location.pathname);
             }
 

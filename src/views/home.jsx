@@ -6,7 +6,7 @@ import {useMedia}  from '../hooks/apiHooks.js';
 
 const Home = () => {
   const [selectedItem, setSelectedItem] = useState(null);
-  const mediaArray = useMedia();
+  const {mediaArray} = useMedia();
 
   return (
     <>
