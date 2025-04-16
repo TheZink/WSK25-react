@@ -1,14 +1,22 @@
+import { useFile, useMedia } from "../hooks/apiHooks.js";
 import { useState } from "react";
-import useForm from "../hooks/formHooks";
-import { useFile } from "../hooks/apiHooks";
-import { useMedia } from "../hooks/apiHooks";
 import { useNavigate } from "react-router";
+import useForm from "../hooks/formHooks";
 
 const Upload = () => {
-  
+  const [file, setFile] = useState(null);
+  const { postFile } = useFile();
+  const { postMedia } = useMedia();
+  const navigate = useNavigate();
+
   const doUpload = async () => {
+
     try {
+
+      console.log('File before upload', file);
       const token = window.localStorage.getItem('token');
+      console.log('postFile function:', postFile)
+      console.log('Token berofe postFile:', token)
       const fileResult = await postFile(file, token);
       console.log('fileresult', fileResult);
 
@@ -22,19 +30,15 @@ const Upload = () => {
     }
   };
 
-  const [file, setFile] = useState(null);
   const { inputs,  handleSubmit, handleInputChange } = useForm(doUpload);
-  const { postFile } = useFile();
-  const { postMedia } = useMedia();
-  const navigate = useNavigate();
-  
+
   const handleFileChange = (evt) => {
     if (evt.target.files) {
-      console.log(evt.target.files[0]);
+      console.log('Selected file: ', evt.target.files[0]);
       setFile(evt.target.files[0]);
-    };
+    }
   };
-  
+
     return (
         <>
             <h1>Upload</h1>
@@ -71,14 +75,14 @@ const Upload = () => {
                     src={
                         file
                         ? URL.createObjectURL(file)
-                        : 'https://via.placeholder.co/200?text=Choose+image'
+                        : 'https://placehold.co/600x400?text=Choose+image'
                     }
                     alt="preview"
                     width="200"
                 />
                 <button
                     type="submit"
-                    disabled={file && inputs.title.length > 3 ? false : true}
+                    disabled={!(file && inputs?.title.length > 3)}
                 >
                     Upload
                 </button>

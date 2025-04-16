@@ -42,6 +42,7 @@ const useMedia = () => {
   }, []);
 
   const postMedia = async (file, inputs, token) => {
+    console.log('postMedia kutsuttu')
     const data = {
       ...inputs,
       ...file,
@@ -57,7 +58,8 @@ const useMedia = () => {
     };
 
     const mediaResult = await fetchData(`${mediaApiUrl}/media`, fetchOptions)
-    console.log(mediaResult);
+    console.log('MediaRestult', mediaResult);
+    return mediaResult
 
   };
 
@@ -81,7 +83,7 @@ const useAuthentication = () => {
 
     return loginResult;
   };
-  
+
   return {postLogin};
 };
 
@@ -112,20 +114,20 @@ const useUser = () => {
 
     return userResult
   }, []);
-  
+
   return {getUserByToken, postUser};
 };
 
 const useFile = () => {
   const postFile = async (file, token) => {
+    console.log('File after doUpload ', file)
     const formData = new FormData();
     formData.append('file', file);
-    console.log('formData', formData)
-    
+    console.log('formData', file)
+
     const fetchOptions = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: 'Bearer: ' + token,
       },
       mode: 'cors',
@@ -134,6 +136,7 @@ const useFile = () => {
 
     const uploadResult = await fetchData(uploadApiUrl + '/upload', fetchOptions);
     console.log('userResult', uploadResult);
+    return uploadResult;
   };
 
   return {postFile};
