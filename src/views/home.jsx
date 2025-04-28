@@ -12,7 +12,7 @@ const Home = () => {
     <>
       <SingleView item={selectedItem} setSelectedItem={setSelectedItem} />
 
-      <h2>My Media</h2>
+      <h2 className="text-2xl my-4 font-mono">My Media</h2>
       <table>
         <thead>
           <tr>
@@ -36,6 +36,7 @@ const Home = () => {
           ))}
         </tbody>
       </table>
+      <SingleView item={selectedItem} setSelectedItem={setSelectedItem}/>
     </>
   );
 };
