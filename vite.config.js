@@ -5,5 +5,5 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/~ilkkasin/WSK25/week5/upload/',
+  base: '/~ilkkasin/WSK25/week6/tailwind/',
 });
